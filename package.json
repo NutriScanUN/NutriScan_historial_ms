@@ -1,0 +1,20 @@
+{
+  "name": "nutriscan_historial_ms",
+  "version": "1.0.0",
+  "description": "El microservicio se encarga de realizar la creación, edición, eliminación y lectura del historial de un usuario. Así como también llevar la funcionalidad de agregar la sumatoria de calorías para un perfil específico.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NutriScanUN/NutriScan_historial_ms.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NutriScanUN/NutriScan_historial_ms/issues"
+  },
+  "homepage": "https://github.com/NutriScanUN/NutriScan_historial_ms#readme"
+}
