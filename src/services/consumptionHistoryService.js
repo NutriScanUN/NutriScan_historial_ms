@@ -1,4 +1,5 @@
 const axios = require('axios');
+const errorHandler = require('../middleware/errorHandler');
 
 // Base URL de la API externa
 const BASE_URL = process.env.BASE_URL_API_USER;
@@ -12,7 +13,7 @@ const consumptionHistoryService = {
             });
             return { success: true, data: response.data };
         } catch (error) {
-            return handleApiError(error);
+            return errorHandler(error);
         }
     },
 
@@ -24,7 +25,7 @@ const consumptionHistoryService = {
             });
             return { success: true, data: response.data };
         } catch (error) {
-            return handleApiError(error);
+            return errorHandler(error);
         }
     },
 
@@ -34,7 +35,7 @@ const consumptionHistoryService = {
             const response = await axios.post(`${BASE_URL}/consumption-history/${uid}`, data);
             return { success: true, data: response.data };
         } catch (error) {
-            return handleApiError(error);
+            return errorHandler(error);
         }
     },
 
@@ -44,7 +45,7 @@ const consumptionHistoryService = {
             const response = await axios.delete(`${BASE_URL}/consumption-history/${uid}/${recordId}`);
             return { success: true, data: response.data };
         } catch (error) {
-            return handleApiError(error);
+            return errorHandler(error);
         }
     },
 };
