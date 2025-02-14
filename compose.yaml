@@ -1,0 +1,15 @@
+services:
+  historial-ms:
+    build: .
+    ports:
+      - "3006:3006"
+    env_file: ".env"
+    develop:
+      watch:
+        - action: rebuild
+          path: ./
+          target: /usr/src/app
+          ignore:
+            - node_modules/
+            - README.md
+            - .gitignore
