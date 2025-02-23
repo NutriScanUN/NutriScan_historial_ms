@@ -20,9 +20,7 @@ const searchHistoryService = {
     // Obtener historial de búsqueda de los últimos días
     async getSearchHistoryByDays(uid, days, orderDirection = 'asc') {
         try {
-            const response = await axios.get(`${BASE_URL}/search-history/${uid}/days`, {
-                params: { days, orderDirection },
-            });
+            const response = await axios.get(`${BASE_URL}/search-history/${uid}/${days}`);
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);
@@ -32,7 +30,7 @@ const searchHistoryService = {
     // Obtener todo el historial de búsqueda
     async getAllSearchHistory(uid, orderDirection = 'asc') {
         try {
-            const response = await axios.get(`${BASE_URL}/search-history/${uid}/all`, {
+            const response = await axios.get(`${BASE_URL}/search-history/${uid}`, {
                 params: { orderDirection },
             });
             return { success: true, data: response.data };
@@ -45,6 +43,7 @@ const searchHistoryService = {
     async addSearchHistoryRecord(uid, data) {
         try {
             const response = await axios.post(`${BASE_URL}/search-history/${uid}`, data);
+            console.log("🚀 ~ addSearchHistoryRecord ~ data:", data)
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);

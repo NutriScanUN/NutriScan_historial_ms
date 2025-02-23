@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 const searchHistoryRoute = require('./routes/routesSearchHistorial');
 const consumptionHistoryRoute = require('./routes/routesConsumoHistorial');
 const errorHandler = require('./middleware/errorHandler');
+const setupSwagger = require('./swagger');
 
 // Crear una instancia de la aplicación Express
 const app = express();
 
 app.use(bodyParser.json());
+setupSwagger(app);
 
 // Rutas de la API
 app.use('/api/search-history', searchHistoryRoute);

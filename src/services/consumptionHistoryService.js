@@ -20,7 +20,7 @@ const consumptionHistoryService = {
     // Obtener historial de consumo de los últimos días
     async getConsumptionHistoryByDays(uid, days, orderDirection = 'asc') {
         try {
-            const response = await axios.get(`${BASE_URL}/consumption-history/${uid}/days`, {
+            const response = await axios.get(`${BASE_URL}/consumption-history/${uid}/${days}`, {
                 params: { days, orderDirection },
             });
             return { success: true, data: response.data };
