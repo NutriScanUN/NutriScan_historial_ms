@@ -19,27 +19,17 @@ const errorHandler = require('../middleware/errorHandler');
  *           description: Identificador único del producto consumido.
  *           example: "product123"
  *         fecha_consumo:
- *           type: object
- *           description: Fecha en que se registró el consumo. Es un Timestamp de Firebase.
- *           properties:
- *             seconds:
- *               type: integer
- *               description: Valor de los segundos en el timestamp de Firebase.
- *               example: 1609459200
- *             nanoseconds:
- *               type: integer
- *               description: Valor de los nanosegundos en el timestamp de Firebase.
- *               example: 0
+ *           type: string
+ *           description: Fecha de consumo en formato string.
+ *           example: "Wed Jan 15 2002 07:00:00 GMT-0500 (Colombia Standard Time)"
  *         cantidad_consumida:
  *           type: number
  *           description: Cantidad consumida del producto.
  *           example: 2
  *         nutrientes_ingeridos:
- *           type: object
- *           description: Detalle de los nutrientes ingeridos, representados como un mapa clave-valor.
- *           additionalProperties:
- *             type: number
- *           example: {"calorias": 150, "proteinas": 10, "grasas": 5}
+ *           type: string
+ *           description: Detalle de los nutrientes ingeridos, representados como un mapa clave-valor pero en string.
+ *           example: '{"calorias":150,"proteinas":10,"grasas":5}'
  *         activo:
  *           type: boolean
  *           description: Indica si el registro está activo o no.

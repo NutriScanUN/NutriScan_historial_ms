@@ -1,5 +1,6 @@
 const axios = require('axios');
 const errorHandler = require('../middleware/errorHandler');
+const { convertDateToFirestoreTimestamp, convertFirestoreTimestampToDate } = require('../utils/historyUtils');
 
 // Base URL de la API externa
 const BASE_URL = process.env.BASE_URL_API_USER;
@@ -10,6 +11,11 @@ const consumptionHistoryService = {
         try {
             const response = await axios.get(`${BASE_URL}/consumption-history/${uid}/all`, {
                 params: { orderDirection },
+            });
+            response.data.data.forEach(element => {
+                element.fecha_consumo = convertFirestoreTimestampToDate(element?.fecha_consumo);
+                element.nutrientes_ingeridos = JSON.stringify(element.nutrientes_ingeridos);
+                return element;
             });
             return { success: true, data: response.data };
         } catch (error) {
@@ -23,6 +29,11 @@ const consumptionHistoryService = {
             const response = await axios.get(`${BASE_URL}/consumption-history/${uid}/${days}`, {
                 params: { days, orderDirection },
             });
+            response.data.data.forEach(element => {
+                element.fecha_consumo = convertFirestoreTimestampToDate(element?.fecha_consumo);
+                element.nutrientes_ingeridos = JSON.stringify(element.nutrientes_ingeridos);
+                return element;
+            });
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);
@@ -32,6 +43,9 @@ const consumptionHistoryService = {
     // Agregar un nuevo registro al historial de consumo
     async addConsumptionHistoryRecord(uid, data) {
         try {
+            data.fecha_consumo = convertDateToFirestoreTimestamp(data.fecha_consumo);   
+            data.nutrientes_ingeridos = JSON.parse(data.nutrientes_ingeridos);   
+            console.log("🚀 ~ addConsumptionHistoryRecord ~ data:", data)
             const response = await axios.post(`${BASE_URL}/consumption-history/${uid}`, data);
             return { success: true, data: response.data };
         } catch (error) {
