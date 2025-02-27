@@ -1,5 +1,6 @@
 const axios = require('axios');
 const errorHandler = require('../middleware/errorHandler');
+const { convertFirestoreTimestampToDate, convertDateToFirestoreTimestamp } = require('../utils/historyUtils');
 
 // Base URL de la API externa
 const BASE_URL = process.env.BASE_URL_API_USER;
@@ -11,6 +12,10 @@ const searchHistoryService = {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}/limit`, {
                 params: { limit, orderDirection },
             });
+            response.data.data.forEach(element => {
+                element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
+                return element;
+            });
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);
@@ -21,6 +26,10 @@ const searchHistoryService = {
     async getSearchHistoryByDays(uid, days, orderDirection = 'asc') {
         try {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}/${days}`);
+            response.data.data.forEach(element => {
+                element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
+                return element;
+            });
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);
@@ -33,6 +42,11 @@ const searchHistoryService = {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}`, {
                 params: { orderDirection },
             });
+            response.data.data.forEach(element => {
+                console.log("🚀 ~ getAllSearchHistory ~ element1:", element)
+                element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
+                return element;
+            });
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);
@@ -42,8 +56,11 @@ const searchHistoryService = {
     // Agregar un nuevo registro al historial de búsqueda
     async addSearchHistoryRecord(uid, data) {
         try {
-            const response = await axios.post(`${BASE_URL}/search-history/${uid}`, data);
             console.log("🚀 ~ addSearchHistoryRecord ~ data:", data)
+            data.fecha_busqueda = convertDateToFirestoreTimestamp(data.fecha_busqueda);   
+            console.log("🚀 ~ addSearchHistoryRecord ~ data:", data)
+            console.log("🚀 ~ addSearchHistoryRecord ~ `${BASE_URL}/search-history/${uid}`:", `${BASE_URL}/search-history/${uid}`)
+            const response = await axios.post(`${BASE_URL}/search-history/${uid}`, data);
             return { success: true, data: response.data };
         } catch (error) {
             return errorHandler(error);

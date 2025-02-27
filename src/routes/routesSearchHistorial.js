@@ -15,17 +15,9 @@ const errorHandler = require('../middleware/errorHandler');
  *           description: Identificador único del registro de historial de búsqueda.
  *           example: "yLz21syVA4tjZMpCyGQz"
  *         fecha_busqueda:
- *           type: object
- *           description: Fecha en la que se realizó la búsqueda (timestamp de Firebase).
- *           properties:
- *             _seconds:
- *               type: integer
- *               description: Valor de los segundos en el timestamp de Firebase.
- *               example: 0
- *             _nanoseconds:
- *               type: integer
- *               description: Valor de los nanosegundos en el timestamp de Firebase.
- *               example: 0
+ *           type: string
+ *           description: Fecha de busqueda en formato string.
+ *           example: "Wed Jan 15 2002 07:00:00 GMT-0500 (Colombia Standard Time)"
  *         id_producto:
  *           type: string
  *           description: Identificador único del producto que fue buscado.
@@ -330,15 +322,11 @@ router.get('/:uid/:days', async (req, res, next) => {
 router.get('/:uid', async (req, res, next) => {
     try {
         const { uid } = req.params;
-        console.log("🚀 ~ router.get ~ uid:", uid)
         const { orderDirection = 'asc' } = req.query;
-        console.log("🚀 ~ router.get ~ orderDirection:", orderDirection)
         const result = await searchHistoryService.getAllSearchHistory(uid, orderDirection);
         if (result.success) {
-            console.log("🚀 ~ router.get ~ result:", result)
             res.status(200).json(result);
         } else {
-            console.log("🚀 ~ router.get ~ result:", result)
             res.status(404).json(result);
         }
     } catch (error) {
@@ -370,15 +358,9 @@ router.get('/:uid', async (req, res, next) => {
  *             type: object
  *             properties:
  *               fecha_busqueda:
- *                 type: object
- *                 properties:
- *                   seconds:
- *                     type: integer
- *                     description: Segundos del Firebase Timestamp.
- *                   nanoseconds:
- *                     type: integer
- *                     description: Nanosegundos del Firebase Timestamp.
- *                 description: Fecha en que se realizó la búsqueda (Firebase Timestamp).
+ *                 type: string
+ *                 description: Fecha de nacimiento en formato TimeStamp de Firebase.
+ *                 example: "Wed Jan 15 2002 07:00:00 GMT-0500 (Colombia Standard Time)"
  *               id_producto:
  *                 type: string
  *                 description: Identificador del producto buscado.
