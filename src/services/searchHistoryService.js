@@ -13,7 +13,7 @@ const searchHistoryService = {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}/limit`, {
                 params: { limit, orderDirection },
             });
-            if(!response?.success) return { success: false, data: response.data };
+            if(!response?.data?.success) return { success: false, data: response.data };
             response?.data?.data.forEach(element => {
                 element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
                 return element;
@@ -28,7 +28,7 @@ const searchHistoryService = {
     async getSearchHistoryByDays(uid, days, orderDirection = 'asc') {
         try {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}/${days}`);
-            if(!response?.success) return { success: false, data: response.data };
+            if(!response?.data?.success) return { success: false, data: response.data };
             response?.data?.data.forEach(element => {
                 element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
                 return element;
@@ -46,7 +46,7 @@ const searchHistoryService = {
                 params: { orderDirection },
             });
             console.log("🚀 ~ getAllSearchHistory ~ response:", response.data)
-            if(!response?.success) return { success: false, data: response.data };
+            if(!response?.data?.success) return { success: false, data: response.data };
             if(response?.data?.data.length === 0) return { success: true, data: [] };
             response?.data?.data.forEach(element => {
                 console.log("🚀 ~ getAllSearchHistory ~ element1:", element)

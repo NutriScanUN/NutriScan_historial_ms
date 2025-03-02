@@ -12,7 +12,7 @@ const consumptionHistoryService = {
             const response = await axios.get(`${BASE_URL}/consumption-history/${uid}/all`, {
                 params: { orderDirection },
             });
-            if(!response?.success) return { success: false, data: response.data };
+            if(!response?.data?.success) return { success: false, data: response.data };
             response?.data?.data.forEach(element => {
                 element.fecha_consumo = convertFirestoreTimestampToDate(element?.fecha_consumo);
                 element.nutrientes_ingeridos = JSON.stringify(element.nutrientes_ingeridos);
@@ -30,7 +30,7 @@ const consumptionHistoryService = {
             const response = await axios.get(`${BASE_URL}/consumption-history/${uid}/${days}`, {
                 params: { days, orderDirection },
             });
-            if(!response?.success) return { success: false, data: response.data };
+            if(!response?.data?.success) return { success: false, data: response.data };
             response?.data?.data.forEach(element => {
                 element.fecha_consumo = convertFirestoreTimestampToDate(element?.fecha_consumo);
                 element.nutrientes_ingeridos = JSON.stringify(element.nutrientes_ingeridos);
