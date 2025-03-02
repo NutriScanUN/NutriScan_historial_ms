@@ -68,7 +68,7 @@ router.get('/:uid/all', async (req, res, next) => {
         const { uid } = req.params;
         const { orderDirection = 'asc' } = req.query;
         const result = await consumptionHistoryService.getAllConsumptionHistory(uid, orderDirection);
-        if (result.success) {
+        if (result.success || result.data.message == "No documents found") {
             res.status(200).json(result);
         } else {
             res.status(404).json(result);
@@ -114,7 +114,7 @@ router.get('/:uid/:days', async (req, res, next) => {
     try {
         const { uid, days } = req.params;
         const result = await consumptionHistoryService.getConsumptionHistoryByDays(uid, parseInt(days), 'asc');
-        if (result.success) {
+        if (result.success || result.data.message == "No documents found") {
             res.status(200).json(result);
         } else {
             res.status(404).json(result);

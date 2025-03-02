@@ -1,6 +1,7 @@
 const axios = require('axios');
 const errorHandler = require('../middleware/errorHandler');
 const { convertFirestoreTimestampToDate, convertDateToFirestoreTimestamp } = require('../utils/historyUtils');
+const { json } = require('body-parser');
 
 // Base URL de la API externa
 const BASE_URL = process.env.BASE_URL_API_USER;
@@ -12,7 +13,8 @@ const searchHistoryService = {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}/limit`, {
                 params: { limit, orderDirection },
             });
-            response.data.data.forEach(element => {
+            if(!response?.success) return { success: false, data: response.data };
+            response?.data?.data.forEach(element => {
                 element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
                 return element;
             });
@@ -26,7 +28,8 @@ const searchHistoryService = {
     async getSearchHistoryByDays(uid, days, orderDirection = 'asc') {
         try {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}/${days}`);
-            response.data.data.forEach(element => {
+            if(!response?.success) return { success: false, data: response.data };
+            response?.data?.data.forEach(element => {
                 element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
                 return element;
             });
@@ -42,7 +45,10 @@ const searchHistoryService = {
             const response = await axios.get(`${BASE_URL}/search-history/${uid}`, {
                 params: { orderDirection },
             });
-            response.data.data.forEach(element => {
+            console.log("🚀 ~ getAllSearchHistory ~ response:", response.data)
+            if(!response?.success) return { success: false, data: response.data };
+            if(response?.data?.data.length === 0) return { success: true, data: [] };
+            response?.data?.data.forEach(element => {
                 console.log("🚀 ~ getAllSearchHistory ~ element1:", element)
                 element.fecha_busqueda = convertFirestoreTimestampToDate(element?.fecha_busqueda);
                 return element;

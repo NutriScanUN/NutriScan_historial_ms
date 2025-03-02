@@ -123,7 +123,7 @@ router.get('/:uid/limit', async (req, res, next) => {
         const { uid } = req.params;
         const { limit, orderDirection = 'asc' } = req.query;
         const result = await searchHistoryService.getSearchHistoryWithLimit(uid, parseInt(limit), orderDirection);
-        if (result.success) {
+        if (result.success || result.data.message == "No documents found") {
             res.status(200).json(result);
         } else {
             res.status(404).json(result);
@@ -212,7 +212,7 @@ router.get('/:uid/:days', async (req, res, next) => {
     try {
         const { uid, days } = req.params;
         const result = await searchHistoryService.getSearchHistoryByDays(uid, parseInt(days), 'asc');
-        if (result.success) {
+        if (result.success || result.data.message == "No documents found") {
             res.status(200).json(result);
         } else {
             res.status(404).json(result);
@@ -324,7 +324,7 @@ router.get('/:uid', async (req, res, next) => {
         const { uid } = req.params;
         const { orderDirection = 'asc' } = req.query;
         const result = await searchHistoryService.getAllSearchHistory(uid, orderDirection);
-        if (result.success) {
+        if (result.success || result.data.message == "No documents found") {
             res.status(200).json(result);
         } else {
             res.status(404).json(result);
