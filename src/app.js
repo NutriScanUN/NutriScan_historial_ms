@@ -65,8 +65,8 @@ app.use('/api/search-history', searchHistoryRoute);
 app.use('/api/consumption-history', consumptionHistoryRoute);
 
 app.get("/metrics", async (req, res) => {
-    res.set("Content-Type", promClient.register.contentType);
-    res.end(await promClient.register.metrics());
+    res.set("Content-Type", register.contentType);
+    res.end(await register.metrics());
   });
 
 app.use(errorHandler);
